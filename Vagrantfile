@@ -7,7 +7,7 @@ hosts = YAML.load_file('hosts.yml')
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   
 # Check for missing plugins
-  required_plugins = %w(vagrant-disksize vagrant-hostmanager vagrant-vbguest vagrant-clean)
+  required_plugins = %w(vagrant-hostmanager)
   plugin_installed = false
   required_plugins.each do |plugin|
     unless Vagrant.has_plugin?(plugin)
@@ -28,13 +28,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.hostmanager.ignore_private_ip = false
 
   config.vm.box_check_update = false
-  config.vbguest.auto_update = false
+
+  # Optionnel pour travailler avec un pool de stockage différent - penser à le creer
+  config.vm.provider :libvirt do |libvirt|
+    # CREATE STORAGE POOL libvirt-pool1 FIRST
+    libvirt.storage_pool_name="libvirt-pool1"
+    libvirt.driver="kvm"
+    libvirt.uri="qemu:///system"
+  end
 
   hosts.each do |host|
     config.vm.define host['name'] do |node|
       node.vm.hostname = host['name']
       node.vm.network :private_network, ip: host['ip']
-      node.disksize.size = host['size']
+      #node.disksize.size = host['size']
 # ------------------- Box Section -------------------------------      
       node.vm.box = host['os'] 
 # ------------------- Provisioning Section -------------------------------
@@ -46,11 +53,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           ansible.verbose = "False"
         end
       end
-      node.vm.provider :virtualbox do |vb|
-        vb.gui = false
-        vb.name = host['name']
-        vb.customize ["modifyvm", :id, "--memory", host['mem'], "--cpus", host['cpus'], "--hwvirtex", "on","--groups", "/DevOps-Lab",
-        "--natdnshostresolver1", "on", "--cableconnected1", "on"]
+      node.vm.provider :libvirt do |d|
+        d.memory = host['mem']
+        d.graphics_type = "none"
+        d.cpus = host['cpus']
       end      
     end
   end
