@@ -1,0 +1,30 @@
+---
+- name: Install Docker for Production environment
+  gather_facts: True
+  hosts: all
+  become: yes
+  
+  tasks:
+
+  - name: Create a directory for storing log mounts from docker
+    file:
+      state: directory
+      path: "{{ item }}"
+      mode: "0777"
+    loop:
+      - /home/vagrant/logs
+      
+  - name: Immediately restart Docker for accessing insecure registry.
+    service: name=docker state=restarted
+    when: >
+      (docker_insecure_registry_access is defined and docker_insecure_registry_access.changed)
+
+  roles:
+    - role: infrastructure/provisioning/roles/geerlingguy.docker
+      become: yes
+      vars:
+        docker_users: [vagrant]
+    #- role: infrastructure/provisioning/roles/geerlingguy.pip
+    #  vars: 
+    #    pip_install_packages:
+    #    - name: docker-py
