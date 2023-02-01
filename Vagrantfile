@@ -29,6 +29,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.box_check_update = false
 
+  # Optionnel pour travailler avec un pool de stockage différent - penser à le creer
+  config.vm.provider :libvirt do |libvirt|
+    # CREATE STORAGE POOL libvirt-pool1 FIRST
+    libvirt.storage_pool_name="libvirt-pool1"
+    libvirt.driver="kvm"
+    libvirt.uri="qemu:///system"
+  end
+
   hosts.each do |host|
     config.vm.define host['name'] do |node|
       node.vm.hostname = host['name']
