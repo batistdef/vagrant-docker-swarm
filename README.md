@@ -17,7 +17,7 @@ vagrant up
 ```
 
 ### Créer un fichier docker_config.json qui contient le login à docker hub:
-Pour le generer il faut lancer `docker login` et copier le contenu du fichier dans un fichier nommé `docker_login.json` à la racine du projet
+Pour le generer il faut lancer `docker login` et copier le contenu du fichier dans un fichier nommé `docker_config.json` à la racine du projet
 
 ### Ensuite pour connecter les machines entre elles il faudra récupérer ces lignes dans le log de la machine manager:
 ```sh
