@@ -16,6 +16,9 @@ cd vagrant-docker-swarm
 vagrant up
 ```
 
+### Créer un fichier docker_config.json qui contient le login à docker hub:
+Pour le generer il faut lancer `docker login` et copier le contenu du fichier dans un fichier nommé `docker_login.json` à la racine du projet
+
 ### Ensuite pour connecter les machines entre elles:
 ```ssh
 vagrant ssh manager
