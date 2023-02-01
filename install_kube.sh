@@ -55,7 +55,7 @@ lsmod | grep br_netfilter
 sudo systemctl enable kubelet 
 
 ##
-sudo rm \u2013rf /etc/containerd/config.toml
+sudo rm -rf /etc/containerd/config.toml
 sudo systemctl restart containerd
 # Install containerd
 sudo yum install -y containerd.io

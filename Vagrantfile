@@ -47,10 +47,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         end
       end
 
-      node.vm.provision "shell",privileged: true, path: copy_docker_login.sh
-      node.vm.provision "shell",privileged: true, path: install_kube.sh
+      node.vm.provision "shell",privileged: true, path: "copy_docker_login.sh"
+      node.vm.provision "shell",privileged: true, path: "install_kube.sh"
       if host['manager'] == 'yes'
-      	node.vm.provision "shell",privileged: true, path: manager_setup.sh
+      	node.vm.provision "shell",privileged: true, path: "manager_setup.sh"
       end
 
       node.vm.provider :virtualbox do |vb|
