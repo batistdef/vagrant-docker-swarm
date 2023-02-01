@@ -46,6 +46,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           ansible.verbose = "False"
         end
       end
+
+      node.vm.provision "shell",privileged: true, path: copy_docker_login.sh
+      node.vm.provision "shell",privileged: true, path: install_kube.sh
+      if host['manager'] == 'yes'
+      	node.vm.provision "shell",privileged: true, path: manager_setup.sh
+      end
+
       node.vm.provider :virtualbox do |vb|
         vb.gui = false
         vb.name = host['name']
