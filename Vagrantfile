@@ -49,8 +49,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       node.vm.provision "shell",privileged: true, path: "copy_docker_login.sh"
       node.vm.provision "shell",privileged: true, path: "install_kube.sh"
+      
+      # Which manager script to use
+      if Vagrant::Util::Platform.windows? then
+        manager_script_path = "manager_setup.windows.sh"
+      else
+        manager_script_path = "manager_setup.sh"
+      end
+
+      worker_script_path = "worker_setup.sh"
+
       if host['manager'] == true
-      	node.vm.provision "shell",privileged: false, path: "manager_setup.sh"
+      	node.vm.provision "shell",privileged: false, path: manager_script_path
+      else
+        node.vm.provision "shell",privileged: false, path: worker_script_path
       end
 
       node.vm.provider :virtualbox do |vb|

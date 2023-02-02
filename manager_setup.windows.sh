@@ -2,7 +2,7 @@ echo "100.0.0.10 manager.k8s.local" | sudo tee -a /etc/hosts
 
 sudo kubeadm config images pull
 
-sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --upload-certs --apiserver-advertise-address=100.0.0.10 --control-plane-endpoint=manager.k8s.local 
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --upload-certs --apiserver-advertise-address=100.0.0.10 #--control-plane-endpoint=manager.k8s.local 
 
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
