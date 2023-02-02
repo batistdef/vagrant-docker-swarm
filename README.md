@@ -13,6 +13,8 @@ sudo yum localinstall vagrant_2.2.2_x86_64.rpm
 ```sh
 git clone https://github.com/batistdef/vagrant-docker-swarm.git
 cd vagrant-docker-swarm
+# Optionnel: par défaut les ressources des VMs sont limitées, pour les augmenter comme dans le TP:
+cp -f hosts.default.yml hosts.yml
 vagrant up
 ```
 
