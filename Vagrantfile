@@ -47,9 +47,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       if host['provisioner'] == 'shell'
         node.vm.provision "shell",privileged: true, path: host['playbook']
       else
-        node.vm.provision "ansible_local" do |ansible|
+        node.vm.provision "ansible" do |ansible|
           ansible.playbook = host['playbook']
-          ansible.verbose = "False"
+          ansible.verbose = "v"
         end
       end
 
